@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>翻页</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding: 0px;
+		}
+		#header{
+			text-align: center;
+		}
+		#box{
+			width: 900px;
+			height: 144px;
+			margin:auto;
+			margin-top:20px;
+			position: relative;
+		}
+		.tab{
+			height: 14px;
+			width: 900px;
+		}
+		.tab ul{
+			text-decoration: none;
+			width:50px;
+			height:14px;
+			list-style-type: none;
+			position: absolute;
+			right: 0px;
+		}
+		.tab li{
+			background-color: #a0a0a0;
+			width: 7px;
+			height: 7px;
+			float: left;
+			border-radius: 7px;
+			margin: 5px 3px;
+			transition:width 1s;
+			-moz-transition: width 1s;	/* Firefox 4 */
+			-webkit-transition: width 1s;	/* Safari 和 Chrome */
+			-o-transition: width 1s;	/* Opera */
+		}
+		.tab li.on{
+			background-color: #0a8cd2;
+			width:14px;
+		}
+		.imgBox {
+			width: 900px;
+			height: 131px;
+			overflow:hidden;
+		}
+		.container{
+			width: 5000px;
+			height:130px;
+			position: relative;
+		}
+		.imgBox ul{
+			list-style-type: none;
+			width: 900px;
+			height: 130px;
+			display: inline;
+			float: left;
+		}
+		.imgBox img{
+			width: 130px;
+			height: 130px;
+			float: left; 
+			margin-right: 20px;
+			box-shadow: 1px 1px 1px #a0a0a0;
+		}
+		.arrow {
+			width: 30px;
+			text-decoration: none;
+			height: 90px;
+			display: block;
+			background-color: rgba(112,112,112,0.7);
+			color: #ffffff;
+			position: absolute;
+			top: 35px;
+			text-align: center;
+			line-height: 90px;
+			border-radius:3px;
+			font-size: 30px;
+		}
+		.prev{
+			left:-15px;
+		}
+		.next{
+			right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="header"><h1>图片滑动</h1></div>
+	<div id="box"></div>
+	<script type="text/javascript" src="imgAction.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+div#main {
+	margin:0px;padding:0px;width:400px;height:600px;position:absolute;
+}
+div#myPrint {
+	width:400px;
+	height:200px;
+	background-color:#ffffff;
+	color:black;
+}
+div#numberButton {
+	width:300px;
+	height:400px;
+	float:left;
+	background-color:#404040;
+	color:#ffffff;
+	z-index:1;
+	cursor: pointer;
+}
+a.num {
+	float:left;
+	width:100px;
+	height:100px;
+	background-color:#404040;
+	color:#ffffff;
+	font-size:200%;
+	text-align:center;
+	line-height:100px;
+}
+div#opButton {
+	float:left;
+	width:80px;
+	height:400px;
+	background-color:#505050;
+	color:#ffffff;
+	cursor: pointer;
+}
+a.op {
+	display:block;
+	width:80px;
+	height:80px;
+	float:left;
+	background-color:#505050;
+	color:#ffffff;
+	text-align:center;
+	line-height:80px;
+}
+#op2Button {
+	display:block;
+	position:absolute;
+	width:20px;
+	height:400px;
+	left:380px;
+	background-color:#33FFCC;
+	color:#ffffff;
+	line-height:400px;
+	text-align:center;
+}
+#op2Table {
+	display:none;
+	width:200px;
+	height:400px;
+	position:absolute;
+	left:-200px;
+	top:0px;
+	background-color:#33FFCC;
+	color:#ffffff;
+	padding:0;
+	margin:0;
+	cursor: pointer;
+}
+a.op2 {
+	display:block;
+	width:100px;
+	height:100px;
+	float:left;
+	background-color:#33FFCC;
+	color:#ffffff;
+	text-align:center;
+	line-height:100px;
+}
+#enterNumber {
+	text-align:right;
+	font-size:400%;
+	padding-top:20px;
+	margin:0px;
+	display:block;
+}
+p#answer {
+	text-align:right;
+	font-size:400%;
+	margin:0px;
+	padding-top:5%;
+	display:block;
+}

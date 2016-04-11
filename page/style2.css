@@ -1,0 +1,20 @@
+.page{
+	margin: 20px;
+}
+.page a{
+	display: inline-block;
+	padding: 2px 5px;
+	margin:2px;
+	text-decoration: none;
+	color:black;
+	border: 1px solid #A0A0A0;
+}
+a.unclick{
+	color:#A0A0A0;
+	cursor: default;
+}
+a.on{
+	background-color: #A0A0A0;
+	border-color: black;
+	color:#ffffff;
+}

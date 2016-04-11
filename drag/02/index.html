@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>滑动验证</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	#box{width: 300px;height: 200px;margin: 100px auto;}
+	.slider{
+		width: 300px;
+		height: 35px;
+		margin: 0;
+		padding: 0;
+		background-color: #E0E0E0;
+		position: relative;
+	}
+	.dragBG{
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 35px;
+		line-height: 35px;
+		background: #7ac23c;
+	}
+	.dragText{
+		position: absolute;
+		width: 300px;
+		height: 35px;
+		line-height: 35px;
+		text-align: center;
+		font-size: 12px;
+	}
+	.handler{
+		position: absolute;
+		width: 40px;
+		height: 33px;
+		border: 1px solid #A8A8A8;
+		cursor:move;
+	}
+	.handlerBg{
+		background: #fff url("images/arrow.png") no-repeat center;
+	}
+	.handlerokBg{
+		background: #fff url("images/ok.png") no-repeat center;
+	}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="slider">
+			<div class="dragBG" style="width: 0;"></div>
+			<div class="dragText">拖动滑块验证</div>
+			<div class="handler handlerBg"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function drag(obj){
+			var box = document.getElementById(obj);
+			var slider = box.getElementsByClassName("slider")[0];
+			var bgWidth = box.getElementsByClassName("dragBG")[0];
+			var handler = box.getElementsByClassName("handler")[0];
+			var text = box.getElementsByClassName("dragText")[0];
+			var flag = false;
+			handler.onmousedown = function(event){
+				var event = event || window.event;
+				var disX = event.clientX - slider.offsetLeft;
+				console.log(event.clientX+" "+slider.offsetLeft+ " " +disX);
+				document.onmousemove = function(event){
+					var event = event || window.event;
+					var moveX = event.clientX - disX - slider.offsetLeft;
+					console.log(moveX);
+
+					if (moveX < 0) {
+						moveX = 0;
+					}else if (moveX > slider.offsetWidth - handler.offsetWidth) {
+						moveX = slider.offsetWidth - handler.offsetWidth;
+					}
+					handler.style.left = moveX + "px";
+					bgWidth.style.width = moveX + "px";
+					if (handler.offsetLeft + handler.offsetWidth == slider.offsetWidth) {
+						flag = true;
+						handler.classList.remove("handlerBg")
+						handler.classList.add("handlerokBg");
+						text.style.color = "#fff";
+						document.onmousemove = null;
+						handler.onmousedown = null;
+					}
+				};
+				document.onmouseup = function(){
+					if(!flag){
+						handler.style.left = 0;
+						bgWidth.style.width = 0;
+					}
+					document.onmousemove = null;
+					document.onmouseup = null;
+				};
+				return false;
+			}
+		}
+		window.onload = function(){
+			drag("box");
+		};
+	</script>
+</body>
+</html>
