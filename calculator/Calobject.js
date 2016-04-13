@@ -122,19 +122,15 @@ Calculator.prototype = {
 				//是数字则直接存入rpn
 				if(!isNaN(parseFloat(formula[i])) || formula[i] == '.'){
 				rpn = rpn + formula[i];
-				//alert(formula[i] + "直接输出");
 				//遇到右括号
 				}else if(formula[i] == ')'){
-				//alert("遇到)");
 					(function(){
 						for( ; op.length > 0 ; ){
 							//遇到做括号 出栈不输出
 							if(op[op.length-1] == '('){
-								//alert(op[op.length-1] + "遇到（")
 								op.pop();
 								break;
 							}
-							//alert(op[op.length-1] + "出栈")
 							rpn = rpn + ' ';
 							rpn = rpn + op.pop();
 							rpn = rpn + ' ';
@@ -144,13 +140,11 @@ Calculator.prototype = {
 				}else{
 					//如果符号栈是空的直接压入
 					if(op.length == 0){
-						//alert(formula[i] + "压入空栈");
 						rpn = rpn + ' ';
 						op.push(formula[i]);
 						rpn = rpn + ' ';
 					//优先级比栈内符号大 压入栈
 					}else if(Math.opWeightValue(op[op.length-1], 1) < Math.opWeightValue(formula[i], 0) ){
-						//alert(op[op.length-1] + formula[i] + "比栈内的符号大");
 						rpn = rpn + ' ';
 						op.push(formula[i]);
 						rpn = rpn + ' ';
@@ -160,16 +154,11 @@ Calculator.prototype = {
 						for( ; op.length > 0 ; ){
 							//栈内符号 小于 栈外符号 结束弹出
 							if(Math.opWeightValue(op[op.length-1],1) <= Math.opWeightValue(formula[i], 0)){
-								//alert(op[op.length-1] + formula[i] + 
-								//"栈内符号小于或等于栈外" + 
-								//op[op.length-1] + "出栈");
 								rpn = rpn + ' ';
 								rpn = rpn + op.pop();
 								rpn = rpn + ' ';
 								break;
 							}
-							//alert(op[op.length-1] +  formula[i] + 
-							//"比外部符号优先级大 弹出堆栈");
 							rpn = rpn + ' ';
 							rpn = rpn + op.pop();
 							rpn = rpn + ' ';
@@ -179,7 +168,6 @@ Calculator.prototype = {
 				}
 			}
 			for(;op.length > 0;){
-				//alert(op[op.length-1] + "弹出");
 				if(op[op.length-1] == '(') op.pop();
 				else{
 					rpn = rpn + ' '; 
@@ -189,7 +177,6 @@ Calculator.prototype = {
 			}
 			//模块2－－计算逆波兰表达式
 			(function(){
-				//alert("rpn= " + rpn);
 				var a, b, max;
 				var numStack = new Array();		//储存数字的堆栈
 				var numArray = rpn.split(" ");	//以空格来分割字符串
@@ -206,7 +193,6 @@ Calculator.prototype = {
 							case '+':
 								a = numStack.pop();
 								b = numStack.pop();
-								//alert(a + "+" + b);
 								//获取ab最高的小数数位
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(a + b, max));
@@ -214,14 +200,12 @@ Calculator.prototype = {
 							case '-':
 								a = numStack.pop();
 								b = numStack.pop();
-								//alert(b + "-" + a);
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(b-a, max));
 								break;
 							case '*':
 								a = numStack.pop();
 								b = numStack.pop();
-								//alert(a + "*" + b);
 								//结果的数位是ab小数数位之和
 								max = Math.getDigit(a) + Math.getDigit(b);
 								numStack.push(Math.formatFloat(b*a, max));
@@ -229,7 +213,6 @@ Calculator.prototype = {
 							case '/':
 								a = numStack.pop();
 								b = numStack.pop();
-								//alert(b + "/" + a);
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(b/a);
 								break;
