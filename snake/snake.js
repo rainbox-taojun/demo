@@ -1,6 +1,6 @@
 function Snake(width,height){
-	this.width = width;
-	this.height = height;
+	this.width = width;//棋盘宽度
+	this.height = height;//棋盘高度
 	this.battle = null;
 	this.body = [];
 }
