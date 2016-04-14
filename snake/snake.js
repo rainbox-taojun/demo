@@ -74,7 +74,7 @@ Snake.prototype = {
 				that.body.unshift(go);
 				that.body.pop();
 			}
-		},500);
+		},300);
 	},
 	key:function(){
 		var that = this;
@@ -99,32 +99,41 @@ Snake.prototype = {
 	//unshift()在数组头部加入
 	next:function(fx){
 		var go;
-		var flag = false;
+		var flag = true;
 		switch(fx){
 			case 'l':
 				go = -1;
+				flag = true;
 				break;
 			case 'r':
 				go = 1;
+				flag = true;
 				break;
 			case 'u':
 				go = -10;
+				flag = false;
 				break;
 			case 'd':
 				go = 10;
+				flag = false;
 				break;
 		}
 		var away = this.body[0]+go;
-		if(away > this.width*this.height){
-			flag = true;
-			away = away-100;
-		}else if(away < 0){
-			flag = true;
-			away =  this.body[0]+90;
-		}
-		if(flag && (this.body[0] % 10 == 0 || this.body[0] % 10 == 1)){
-			if(away % 10 == 1) {away -= 10;}
-			else if(away % 10 == 0) {away += 10;}
+		if(!flag){
+			if(away > this.width*this.height){
+				away = away-100;
+			}else if(away < 0){
+				away =  this.body[0]+90;
+			}else if(away == 0&&this.body[0] == this.width){
+				away = this.width*this.height;
+			}else if(away == this.width*this.height && this.body[0] == this.width*this.height-1){
+				flag = false;
+			}
+		}else{
+			if(this.body[0] % 10 == 0 || this.body[0] % 10 == 1){
+				if(away % 10 == 1) {away -= 10;}
+				else if(away % 10 == 0) {away += 10;}
+			}
 		}
 		return away;
 	}
