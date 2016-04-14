@@ -3,8 +3,10 @@ function Snake(width,height){
 	this.height = height;//棋盘高度
 	this.battle = null;
 	this.body = [];
+	this.timer = null;
 }
 Snake.prototype = {
+	//画出棋盘
 	init:function(id){
 		this.box = document.getElementById(id);
 		var ul = "";
@@ -24,24 +26,111 @@ Snake.prototype = {
 		}
 		this.box.innerHTML = ul;
 	},
+	//随机生成食物
 	random:function(){
 		for( ; ; ){
 			var num = Math.floor(Math.random() * 100 + 1);
-			var flag = true;
-			for(var i=0 ; i<this.body.length ; i++){
-				var sbody = this.body[i].className.split("_")[1];
-				if(num == sbody){
-					flag = false;
-				}
-			}
-			if(flag){
+			if(!this.test(num)){
 				document.getElementById("li_" + num).className = "on";
 				break;
 			}
 		}
+	},
+	//测试是不是蛇身
+	test:function(num){
+		for(var i=0 ; i<this.body.length ; i++){
+			if(num == this.body[i]){
+				return true;
+			}
+		}
+	},
+	//初始化
+	start:function(){
+		this.body[this.body.length] = Math.floor(Math.random() * 100 + 1);
+		console.log(this.body);
+		document.getElementById("li_" + this.body[0]).className = "on";
+		this.random();
+		this.move("l");
+		this.key();
+	},
+	//
+	move:function(fx){
+		var fx = fx;
+		var that = this;
+		clearInterval(this.timer);
+		this.timer = setInterval(function(){
+			var go = that.next(fx);
+			if(document.getElementById("li_" + go).classList.contains("on")){
+				if(that.test(go)){
+					alert("gg");
+					clearInterval(that.timer);
+				}else{
+					that.body.unshift(go);
+					that.random();
+				}
+			}else{
+				document.getElementById("li_" + go).className = "on";
+				document.getElementById("li_" + that.body[that.body.length-1]).className = "";
+				that.body.unshift(go);
+				that.body.pop();
+			}
+		},500);
+	},
+	key:function(){
+		var that = this;
+		document.body.onkeydown = function(event){
+			var event = event || window.event;
+			switch(event.keyCode){
+				case 37:
+					that.move("l");
+					break;
+				case 38:
+					that.move("u");
+					break;
+				case 39:
+					that.move("r");
+					break;
+				case 40:
+					that.move("d");
+					break;
+			}
+		}
+	},
+	//unshift()在数组头部加入
+	next:function(fx){
+		var go;
+		var flag = false;
+		switch(fx){
+			case 'l':
+				go = -1;
+				break;
+			case 'r':
+				go = 1;
+				break;
+			case 'u':
+				go = -10;
+				break;
+			case 'd':
+				go = 10;
+				break;
+		}
+		var away = this.body[0]+go;
+		if(away > this.width*this.height){
+			flag = true;
+			away = away-100;
+		}else if(away < 0){
+			flag = true;
+			away =  this.body[0]+90;
+		}
+		if(flag && (this.body[0] % 10 == 0 || this.body[0] % 10 == 1)){
+			if(away % 10 == 1) {away -= 10;}
+			else if(away % 10 == 0) {away += 10;}
+		}
+		return away;
 	}
 }
 window.onload = function(){
 	var snake = new Snake(10,10);
 	snake.init("battlefield");
+	snake.start();
 }
