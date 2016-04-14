@@ -1,9 +1,11 @@
 function Snake(width,height){
 	this.width = width;//棋盘宽度
 	this.height = height;//棋盘高度
-	this.battle = null;
-	this.body = [];
+	this.body = [];//存放蛇身位置
 	this.timer = null;
+	this.score = 0;//得分
+	this.end = false;//是否结束游戏
+	this.count = width*height;
 }
 Snake.prototype = {
 	//画出棋盘
@@ -62,11 +64,13 @@ Snake.prototype = {
 			var go = that.next(fx);
 			if(document.getElementById("li_" + go).classList.contains("on")){
 				if(that.test(go)){
-					alert("gg");
+					alert("GG,你的分数是: " + that.score);
 					clearInterval(that.timer);
+					that.end = true;
 				}else{
 					that.body.unshift(go);
 					that.random();
+					that.score++
 				}
 			}else{
 				document.getElementById("li_" + go).className = "on";
@@ -78,20 +82,29 @@ Snake.prototype = {
 	},
 	key:function(){
 		var that = this;
+		var fx;
 		document.body.onkeydown = function(event){
+			if(that.end){
+				document.body.onkeydown = null;
+				return false;
+			}
 			var event = event || window.event;
 			switch(event.keyCode){
 				case 37:
-					that.move("l");
+					if(fx!="l" && fx!="r") that.move("l");
+					fx = "l";
 					break;
 				case 38:
-					that.move("u");
+					if(fx!="u" && fx!="d") that.move("u");
+					fx = "u";
 					break;
 				case 39:
-					that.move("r");
+					if(fx!="r" && fx!="l") that.move("r");
+					fx = "r";
 					break;
 				case 40:
-					that.move("d");
+					if(fx!="d" && fx!="u") that.move("d");
+					fx = "d";
 					break;
 			}
 		}
@@ -120,19 +133,19 @@ Snake.prototype = {
 		}
 		var away = this.body[0]+go;
 		if(!flag){
-			if(away > this.width*this.height){
-				away = away-100;
+			if(away > this.count){
+				away = away-this.count;
 			}else if(away < 0){
-				away =  this.body[0]+90;
+				away =  this.body[0]+this.count-this.width;
 			}else if(away == 0&&this.body[0] == this.width){
-				away = this.width*this.height;
-			}else if(away == this.width*this.height && this.body[0] == this.width*this.height-1){
+				away = this.count;
+			}else if(away == this.count && this.body[0] == this.width*this.height-1){
 				flag = false;
 			}
 		}else{
-			if(this.body[0] % 10 == 0 || this.body[0] % 10 == 1){
-				if(away % 10 == 1) {away -= 10;}
-				else if(away % 10 == 0) {away += 10;}
+			if(this.body[0] % this.width == 0 || this.body[0] % 10 == 1){
+				if(away % this.width == 1) {away -= this.width;}
+				else if(away % this.width == 0) {away += this.width;}
 			}
 		}
 		return away;
