@@ -123,11 +123,11 @@ Snake.prototype = {
 				flag = true;
 				break;
 			case 'u':
-				go = -10;
+				go = -this.width;
 				flag = false;
 				break;
 			case 'd':
-				go = 10;
+				go = this.width;
 				flag = false;
 				break;
 		}

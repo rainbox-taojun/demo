@@ -1,5 +1,5 @@
 div#main {
-	margin:0px;padding:0px;width:400px;height:600px;position:absolute;
+	margin:50px auto;padding:0px;width:400px;height:600px;position:relative;
 }
 div#myPrint {
 	width:400px;
