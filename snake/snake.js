@@ -6,6 +6,7 @@ function Snake(width,height){
 	this.score = 0;//得分
 	this.end = false;//是否结束游戏
 	this.count = width*height;
+	this.fx = 'l';
 }
 Snake.prototype = {
 	//画出棋盘
@@ -56,11 +57,11 @@ Snake.prototype = {
 		this.key();
 	},
 	//
-	move:function(fx){
-		var fx = fx;
+	move:function(){
 		var that = this;
 		clearInterval(this.timer);
 		this.timer = setInterval(function(){
+			var fx = that.fx;
 			var go = that.next(fx);
 			if(document.getElementById("li_" + go).classList.contains("on")){
 				if(that.test(go)){
@@ -82,7 +83,6 @@ Snake.prototype = {
 	},
 	key:function(){
 		var that = this;
-		var fx;
 		document.body.onkeydown = function(event){
 			if(that.end){
 				document.body.onkeydown = null;
@@ -91,20 +91,20 @@ Snake.prototype = {
 			var event = event || window.event;
 			switch(event.keyCode){
 				case 37:
-					if(fx!="l" && fx!="r") that.move("l");
-					fx = "l";
+					if(that.fx!="l" && that.fx!="r")
+						that.fx = "l";
 					break;
 				case 38:
-					if(fx!="u" && fx!="d") that.move("u");
-					fx = "u";
+					if(that.fx!="u" && that.fx!="d")
+						that.fx = "u";
 					break;
 				case 39:
-					if(fx!="r" && fx!="l") that.move("r");
-					fx = "r";
+					if(that.fx!="r" && that.fx!="l")
+						that.fx = "r";
 					break;
 				case 40:
-					if(fx!="d" && fx!="u") that.move("d");
-					fx = "d";
+					if(that.fx!="d" && that.fx!="u")
+						that.fx = "d";
 					break;
 			}
 		}
