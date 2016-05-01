@@ -70,7 +70,8 @@ window.onload = function(){
 		],
 		[
 			{title:"其他"},
-			{url:"page/index2.html",text:"页码效果"}
+			{url:"other/page/index2.html",text:"页码效果"},
+			{url:"other/1/index.html", text:"简易评分"}
 		]
 	];
 	demo.init("warp");
