@@ -72,7 +72,7 @@ Snake.prototype = {
 				}else{
 					that.body.unshift(go);
 					that.random();
-					that.score++
+					that.score++;
 				}
 			}else{
 				document.getElementById("li_" + go).className = "on";
