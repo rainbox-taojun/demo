@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>俄罗斯方块</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#box{margin: auto;width: 300px;}
+		#box ul{
+			list-style-type: none;
+			clear: left;
+		}
+		#box ul li{
+			display: block;
+			width: 20px;
+			height: 20px;
+			border:1px solid #C0C0C0;
+			float: left;
+		}
+		#box ul li.on{background-color: #3366FF;}
+		#box ul li.off{background-color: #888888;}
+		
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="score"></div>
+		<div class="next"></div>
+	</div>
+	<script type="text/javascript" src="script.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ function Snake(width,height){
 	this.end = false;//是否结束游戏
 	this.count = width*height;
 	this.fx = 'l';
+	this.box = null;
 }
 Snake.prototype = {
 	//画出棋盘
