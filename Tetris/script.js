@@ -104,7 +104,7 @@ Tetris.prototype = {
 	},
 	key:function(){
 		var that = this;
-		document.body.onkeyup = function(event){
+		document.body.onkeydown = function(event){
 			var event = event || window.event;
 			switch(event.keyCode){
 				case 37:
