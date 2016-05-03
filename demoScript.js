@@ -66,7 +66,8 @@ window.onload = function(){
 		[
 			{title:"web小程序"},
 			{url:"calculator/index.html", text:"web计算器"},
-			{url:"snake/index.html",text:"贪吃蛇"}
+			{url:"snake/index.html",text:"贪吃蛇"},
+			{url:"Tetris/index.html",text:"俄罗斯方块"}
 		],
 		[
 			{title:"其他"},
