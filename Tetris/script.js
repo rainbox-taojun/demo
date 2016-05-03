@@ -203,7 +203,7 @@ Tetris.prototype = {
 			if (l[i]%10 == 9) {
 				flag = true;
 			}
-			if(l[i]%10 == 0 && flag){
+			if((l[i]%10 == 0 && flag) || document.getElementById("li_"+l[i]).className == "off"){
 				getturn = false;
 			}
 		}
