@@ -168,7 +168,6 @@ Tetris.prototype = {
 			for(var j=0 ; j<10 ; j++){
 				var num = i*10+j;
 				if(document.getElementById("li_"+num).className == ''){
-					i--;
 					flag = false;
 					break;
 				}
@@ -187,7 +186,7 @@ Tetris.prototype = {
 	},
 	//旋转方块
 	turn:function(){
-		var l = [];
+		var temp = [];
 		var flag = false;
 		var getturn = true;
 		this.specific+1==4 ? this.specific = 0 : this.specific++;
@@ -197,13 +196,13 @@ Tetris.prototype = {
 			else break;
 		}
 		for(var i=0 ; i<16 ; i++){
-			if(matrix[i] == 1) l.push(this.s[i]);
+			if(matrix[i] == 1) temp.push(this.s[i]);
 		}
-		for(i=0 ; i<l.length ; i++){
-			if (l[i]%10 == 9) {
+		for(i=0 ; i<temp.length ; i++){
+			if (temp[i]%10 == 9) {
 				flag = true;
 			}
-			if((l[i]%10 == 0 && flag) || document.getElementById("li_"+l[i]).className == "off"){
+			if((temp[i]%10 == 0 && flag) || document.getElementById("li_"+temp[i]).className == "off"){
 				getturn = false;
 			}
 		}
@@ -212,9 +211,9 @@ Tetris.prototype = {
 				document.getElementById("li_"+this.body[i]).className = "";
 			}
 			for (i=0 ; i<this.body.length ; i++) {
-				document.getElementById("li_"+l[i]).className = "on";
+				document.getElementById("li_"+temp[i]).className = "on";
 			}
-			this.body = l;
+			this.body = temp;
 		}
 	},
 	end:function(){
