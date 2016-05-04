@@ -39,20 +39,30 @@ Tetris.prototype = {
 		}
 		this.box.innerHTML += ul;
 	},
+	//矩阵不足16位时在前方添加0
+	addZero:function(arr){
+		var temp = arr;
+		for( ; ; ){
+			if(temp.length < 16) temp = '0' + temp;
+			else break;
+		}
+		return temp;
+	},
+	//设置目标的class
+	setClassName:function(num,str){
+		document.getElementById("li_"+num).className = str;
+	},
 	//随机生成方块类型
 	random:function(){
-		this.end();
 		this.next = Math.floor(Math.random() * 7 + 0);
 		this.specific = Math.floor(Math.random() * 4 + 0);
 		var matrix = this.tetromino[this.next][this.specific].toString(2);
 		this.body.length = 0;
-		for( ; ; ){
-			if(matrix.length < 16) matrix = '0' + matrix;
-			else break;
-		}
+		matrix = this.addZero(matrix);
+		this.end(matrix);
 		for(var i=0 ; i<matrix.length ; i++){
 			if(matrix[i] == 1){
-				document.getElementById("li_"+this.pob[i]).className = "on";
+				this.setClassName(this.pob[i],"on");
 				this.body.push(this.pob[i]);
 			}
 		}
@@ -75,9 +85,9 @@ Tetris.prototype = {
 			}
 			if(!stop){
 				for(var i=that.body.length-1 ; i>=0 ; i--){
-					document.getElementById("li_"+that.body[i]).className = '';
+					that.setClassName(that.body[i],'');
 					that.body[i] += 10;
-					document.getElementById("li_"+that.body[i]).className = "on";
+					that.setClassName(that.body[i],"on");
 				}
 				for(i = 0 ; i<that.s.length ; i++){
 					that.s[i]+=10;
@@ -85,7 +95,7 @@ Tetris.prototype = {
 			}else{
 				that.flag = true;
 				for(var j=0 ; j<that.body.length ; j++){
-					document.getElementById("li_"+that.body[j]).className = "off";
+					that.setClassName(that.body[j],"off");
 				}
 				console.log(parseInt(that.body[that.body.length-1]));
 				that.remove(parseInt(that.body[that.body.length-1]/10));
@@ -124,7 +134,7 @@ Tetris.prototype = {
 	},
 	move:function(path){
 		var grid = 0;
-		var flag = true;
+		var flag = true;//允许移动
 		switch(path){
 			case 'l':
 				grid = -1;
@@ -150,14 +160,14 @@ Tetris.prototype = {
 		}
 		if(flag){
 			for(i=0 ; i<this.body.length ; i++){
-				document.getElementById("li_"+this.body[i]).className = "";
+				this.setClassName(this.body[i],'');
 				this.body[i] += grid;
 			}
 			for(i=0 ; i<this.s.length ; i++){
 				this.s[i] += grid;
 			}
 			for(i=0 ; i<this.body.length ; i++)
-				document.getElementById("li_"+this.body[i]).className = "on";
+				this.setClassName(this.body[i],"on");
 		}
 	},
 	remove:function(level){
@@ -175,9 +185,9 @@ Tetris.prototype = {
 			if(flag){
 				for(var j=i*10+9 ; j>=0 ; j--){
 					if(j>=10){//不是最上一行
-						document.getElementById("li_"+j).className = document.getElementById("li_"+(j-10)).className;
+						this.setClassName(j,document.getElementById("li_"+(j-10)).className);
 					}else{
-						document.getElementById("li_"+j).className = '';
+						this.setClassName(j,'');
 					}
 				}
 				i++;
@@ -191,10 +201,7 @@ Tetris.prototype = {
 		var getturn = true;
 		this.specific+1==4 ? this.specific = 0 : this.specific++;
 		var matrix = this.tetromino[this.next][this.specific].toString(2);
-		for( ; ; ){
-			if(matrix.length < 16) matrix = '0' + matrix;
-			else break;
-		}
+		matrix = this.addZero(matrix);
 		for(var i=0 ; i<16 ; i++){
 			if(matrix[i] == 1) temp.push(this.s[i]);
 		}
@@ -208,21 +215,21 @@ Tetris.prototype = {
 		}
 		if(getturn){
 			for(i=0 ; i<this.body.length ; i++){
-				document.getElementById("li_"+this.body[i]).className = "";
+				this.setClassName(this.body[i],"");
 			}
 			for (i=0 ; i<this.body.length ; i++) {
-				document.getElementById("li_"+temp[i]).className = "on";
+				this.setClassName(temp[i],"on");
 			}
 			this.body = temp;
 		}
 	},
-	end:function(){
+	end:function(matrix){
 		for(var i=0 ; i<this.pob.length ; i++){
-			if(document.getElementById("li_"+this.pob[i]).className == "off"){
+			if(document.getElementById("li_"+this.pob[i]).className == "off" && matrix[i] == '1'){
 				clearInterval(this.timer);
 				clearInterval(this.go);
 				alert("YOU DIED!");
-				break;
+				return false;
 			}
 		}
 	},
