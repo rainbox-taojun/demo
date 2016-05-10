@@ -4,10 +4,8 @@ Calculator.prototype = {
 	answerText:null,//显示结果文本
 	//初始化
 	initialization:function(){
-		this.numText = document.createTextNode("");
-		document.getElementById("enterNumber").appendChild(this.numText);
-		this.answerText = document.createTextNode("");
-		document.getElementById("answer").appendChild(this.answerText);
+		this.numText = document.getElementById("number");
+		this.answerText = document.getElementById("answer");
 	},
 	//按钮封装程序入口
 	buttonAction:function(){
@@ -27,23 +25,23 @@ Calculator.prototype = {
 			//事件委托
 			switch(target.id){
 				case '=':
-					if(that.answerText.nodeValue == "Infinity" || that.answerText.nodeValue == "NaN"){
-						that.numText.nodeValue = "";
+					if(that.answerText.innerHTML == "Infinity" || that.answerText.innerHTML == "NaN"){
+						that.numText.innerHTML = "";
 					}
 					else{
-						that.numText.nodeValue = that.answerText.nodeValue;
+						that.numText.innerHTML = that.answerText.innerHTML;
 					}
-					that.answerText.nodeValue = "";
+					that.answerText.innerHTML = "";
 					EventUtil.stopPropagation(event);
 					break;
 				case 'del':
-					if(that.numText.nodeValue.length > 0){
-						that.numText.deleteData(that.numText.nodeValue.length-1,1);
+					if(that.numText.innerHTML.length > 0){
+						that.numText.firstChild.deleteData(that.numText.innerHTML.length-1,1);
 					}
 					break;
 				default:
 					EventUtil.preventDefault(event);
-					that.numText.appendData(target.id);
+					that.numText.innerHTML += target.id;
 					break;
 			}
 		});
@@ -70,8 +68,8 @@ Calculator.prototype = {
 			//延时750毫秒后检测鼠标是否触发mouseup，没触发则视为长按事件
 			setTimeout(function(){
 				if(mark){
-					that.answerText.nodeValue = "";
-					that.numText.nodeValue = "";
+					that.answerText.innerHTML = "";
+					that.numText.innerHTML = "";
 				}
 			},750);
 		});
@@ -106,7 +104,7 @@ Calculator.prototype = {
 	},
 	calculation:function(){
 		EventUtil.addHandler(document.body, "click", function(){
-			var formula = document.getElementById("enterNumber").firstChild.nodeValue;			//获取表达式
+			var formula = document.getElementById("number").innerHTML;			//获取表达式
 			for( ; formula.length > 0 ; ){//去掉末尾无效的运算符
 				if(formula[formula.length-1] == '%') break;
 				if(isNaN(parseFloat(formula[formula.length-1])))
@@ -114,7 +112,7 @@ Calculator.prototype = {
 				else
 					break;
 			}
-	
+			var isne = true;//负数
 			var rpn = "";					//储存逆波兰表达式
 			var op = new Array();			//储存符号的堆栈
 			//模块1－－中缀表达式转为逆波兰表达式
@@ -138,6 +136,7 @@ Calculator.prototype = {
 					})();
 				//遇到运算符
 				}else{
+					isne = true;
 					//如果符号栈是空的直接压入
 					if(op.length == 0){
 						rpn = rpn + ' ';
@@ -175,6 +174,7 @@ Calculator.prototype = {
 					rpn = rpn + ' ';
 				}
 			}
+			console.log(rpn);
 			//模块2－－计算逆波兰表达式
 			(function(){
 				var a, b, max;
@@ -192,40 +192,68 @@ Calculator.prototype = {
 						switch(numArray[i]){
 							case '+':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								//获取ab最高的小数数位
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(a + b, max));
 								break;
 							case '-':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(b-a, max));
 								break;
 							case '*':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								//结果的数位是ab小数数位之和
 								max = Math.getDigit(a) + Math.getDigit(b);
 								numStack.push(Math.formatFloat(b*a, max));
 								break;
 							case '/':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(b/a);
 								break;
 							case '^':
 								b = numStack.pop();
-								a = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								numStack.push(Math.pow(a,b));
 								break;
 							case '%':
-								numStack.push(numStack.pop()/100);
+								if(numStack.length == 0){
+									numStack.push(0);
+								}else{
+									numStack.push(numStack.pop()/100);
+								}
 								break;
 							case '√':
-								numStack.push(Math.sqrt(numStack.pop()));
+								if(numStack.length == 0){
+									numStack.push(0);
+								}else{
+									numStack.push(Math.sqrt(numStack.pop()));
+								}
 								break;
 							default:
 								throw "未知的符号";
