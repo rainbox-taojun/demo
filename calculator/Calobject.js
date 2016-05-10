@@ -112,7 +112,7 @@ Calculator.prototype = {
 				else
 					break;
 			}
-	
+			var isne = true;//负数
 			var rpn = "";					//储存逆波兰表达式
 			var op = new Array();			//储存符号的堆栈
 			//模块1－－中缀表达式转为逆波兰表达式
@@ -136,6 +136,7 @@ Calculator.prototype = {
 					})();
 				//遇到运算符
 				}else{
+					isne = true;
 					//如果符号栈是空的直接压入
 					if(op.length == 0){
 						rpn = rpn + ' ';
@@ -173,6 +174,7 @@ Calculator.prototype = {
 					rpn = rpn + ' ';
 				}
 			}
+			console.log(rpn);
 			//模块2－－计算逆波兰表达式
 			(function(){
 				var a, b, max;
