@@ -192,40 +192,68 @@ Calculator.prototype = {
 						switch(numArray[i]){
 							case '+':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								//获取ab最高的小数数位
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(a + b, max));
 								break;
 							case '-':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(Math.formatFloat(b-a, max));
 								break;
 							case '*':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								//结果的数位是ab小数数位之和
 								max = Math.getDigit(a) + Math.getDigit(b);
 								numStack.push(Math.formatFloat(b*a, max));
 								break;
 							case '/':
 								a = numStack.pop();
-								b = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								max = Math.max(Math.getDigit(a), Math.getDigit(b));
 								numStack.push(b/a);
 								break;
 							case '^':
 								b = numStack.pop();
-								a = numStack.pop();
+								if(numStack.length == 0){
+									b = 0;
+								}else{
+									b = numStack.pop();
+								}
 								numStack.push(Math.pow(a,b));
 								break;
 							case '%':
-								numStack.push(numStack.pop()/100);
+								if(numStack.length == 0){
+									numStack.push(0);
+								}else{
+									numStack.push(numStack.pop()/100);
+								}
 								break;
 							case '√':
-								numStack.push(Math.sqrt(numStack.pop()));
+								if(numStack.length == 0){
+									numStack.push(0);
+								}else{
+									numStack.push(Math.sqrt(numStack.pop()));
+								}
 								break;
 							default:
 								throw "未知的符号";
