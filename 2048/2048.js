@@ -4,7 +4,8 @@ function My2048(width, height){
 	this.length = width*height;
 	this.grid = [];for(var i=0 ; i<this.length ; i++) this.grid[i] = 0;
 	this.prev = [];//上次移动数据
-	this.color = ['#F0F0F0','#FFFFCC','#FF9900','#FF6600','#FF3300','#FF0000','#CCFF33','#CCFF00','#CCCC33','#CCCC00','#CCCC00','#000'];
+	this.oldScore = 0;
+	this.color = ['(238,228,218)','(237,224,200)','(242,177,121)','(244,152,100)','(246,127,95)','(246,94,59)','(236,207,114)','(237,204,97)','(231,196,78)','(237,197,63)','(237,194,47)','(61,58,51)'];
 	this.box = null;
 	this.score = 0;//游戏得分 分数计算机制是，旧分数加上新的两块相加的合
 }
@@ -30,6 +31,9 @@ My2048.prototype = {
 		this.box.innerHTML += "<div class='gameBox'>"+ul+"</div>";
 		var scoreNode = "<div class='score'><span>得分</span><span class='score-num'>0</span></div>";
 		this.box.innerHTML += "<h1>2048</h1>"+scoreNode;
+		this.box.innerHTML += "<button class='revocation'></button>";
+		this.box.innerHTML += "<button class='reset'></button>";
+		this.box.innerHTML += "<button class='home'></button>";
 	},
 	//生成随机位置的方块
 	random:function(){
@@ -47,22 +51,41 @@ My2048.prototype = {
 	},
 	//将数组中的状态显示在界面中
 	draw:function(){
+		//全部初始化样式
 		for(var i=0 ; i<this.length ; i++){
 			document.getElementById("li_"+i).innerHTML = '';
+			document.getElementById("li_"+i).style.backgroundColor = 'rgb(206,192,178)';
+			document.getElementById("li_"+i).style.color = "#fff";
+			document.getElementById("li_"+i).style.fontSize = "50px";
 		}
 		for(var i=0 ; i<this.length ; i++){
 			if(this.grid[i] != 0){
 				document.getElementById("li_"+i).innerHTML = this.grid[i];
+				this.changeColor("li_"+i);
 			}
 		}
 	},
 	//改变方块颜色
-	changeColor:function(){
-
+	changeColor:function(id){
+		var num = document.getElementById(id).innerHTML;
+		for(var i=1 ; i<=this.color.length ; i++){
+			if(Math.pow(2,i) == num){
+				break;
+			}
+		}
+		if(num == 2 || num == 4){
+			document.getElementById(id).style.color = "#606060";
+		}
+		if(num > 1024){
+			document.getElementById(id).style.fontSize = "30px";
+		}
+		document.getElementById(id).style.backgroundColor = "rgb" + this.color[i];
 	},
 	//计算得分
-	countScore:function(){
-
+	countScore:function(num){
+		this.oldScore = this.score;
+		this.score += num;
+		document.getElementsByClassName("score-num")[0].innerHTML = this.score;
 	},
 	merge:function(str){
 		var temp;
@@ -73,6 +96,7 @@ My2048.prototype = {
 				}
 				if(str[i]==str[j]){
 					str[i]*=2;
+					this.countScore(str[i]);
 					str[j]=0;
 					break;
 				}else if(str[j] != 0){
@@ -138,6 +162,7 @@ My2048.prototype = {
 		}
 		this.draw();
 	},
+	//键盘操作
 	keyboardEvent:function(){
 		var that = this;
 		document.body.onkeyup = function(event){
@@ -173,9 +198,39 @@ My2048.prototype = {
 			}
 			if(!that.canMove()){
 				console.log("GG");
-				document.body.onkeyup = null;
+				document.getElementsByClassName("die")[0].style.display="block";
 				return false;
 			}
+		}
+	},
+	btn:function(){
+		var that = this;
+		var play = document.getElementById("play");
+		var home = document.getElementsByClassName("home")[0];
+		var revocation = document.getElementsByClassName("revocation")[0];
+		var reset = document.getElementsByClassName("reset")[0];
+		home.onclick = function(){
+			 document.getElementById("game").style.display = "none";
+			  document.getElementsByClassName("start")[0].style.display = "block";
+		}
+		play.onclick = function(){
+			 document.getElementById("game").style.display = "block";
+			 document.getElementsByClassName("start")[0].style.display = "none";
+			 that.begin();
+		}
+		revocation.onclick = function(){
+			for(var i=0 ; i<that.length ; i++){
+				that.grid[i] = that.prev[i];
+			}
+			that.score = that.oldScore;
+			document.getElementsByClassName("score-num")[0].innerHTML = that.score;
+			document.getElementsByClassName("die")[0].style.display="none";
+			that.draw();
+		}
+		reset.onclick = function(){
+			that.score = that.oldScore = 0;
+			that.countScore(that.score);
+			that.begin();
 		}
 	},
 	//判断能否移动
@@ -202,6 +257,7 @@ My2048.prototype = {
 	},
 	//初始化数字 游戏开始 重置
 	begin:function(){
+		document.getElementsByClassName("die")[0].style.display="none";
 		for(var i=0 ; i<this.length ; i++){
 			document.getElementById("li_"+i).innerHTML = '';
 			this.grid[i] = 0;
@@ -214,5 +270,5 @@ My2048.prototype = {
 window.onload = function(){
 	var my2048 = new My2048(4,4);
 	my2048.init("game");
-	my2048.begin();
+	my2048.btn();
 }

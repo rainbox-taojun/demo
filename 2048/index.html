@@ -8,7 +8,7 @@
 </head>
 <body>
 	<main id="box">
-		<section class="start" style="display:none;">
+		<section class="start" style="display:block;">
 			<header>2048</header>
 			<div class="select-btn">
 				<button class="left select"><</button>
@@ -19,7 +19,9 @@
 				<button id="play">开始游戏</button>
 			</div>
 		</section>
-		<section id="game" style="display:block;"></section>
+		<section id="game" style="display:none;">
+			<div class="die" style="display:none">游戏结束</div>
+		</section>
 	</main>
 	<script type="text/javascript" src="2048.js"></script>
 </body>
