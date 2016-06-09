@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>2048</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="startStyle.css">
+	<link rel="stylesheet" type="text/css" href="game.css">
+</head>
+<body>
+	<main id="box">
+		<section class="start" style="display:block;">
+			<header>2048</header>
+			<div class="select-btn">
+				<button class="left select"><</button>
+				<span class="size" style="color:#787878">4x4</span>
+				<button class="right select">></button>
+			</div>
+			<div class="play-btn">
+				<button id="play">开始游戏</button>
+			</div>
+		</section>
+		<section id="game" style="display:none;">
+			<div class="die" style="display:none">游戏结束</div>
+		</section>
+	</main>
+	<script type="text/javascript" src="2048.js"></script>
+</body>
+</html>
