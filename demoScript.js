@@ -46,42 +46,14 @@ Demo.prototype = {
 	}
 }
 window.onload = function(){
-	var demo = new Demo();
-	/*demo.data = [
-		[
-			{title:"拖动效果"},
-			{url:"drag/01/index.html",text:"可拖动并改变大小的窗体"},
-			{url:"drag/02/index.html", text:"滑动验证"}
-		],
-		[
-			{title:"常用图片轮换"},
-			{url:"slide/01/index5.html", text:"仿淘宝首页图片轮换"},
-			{url:"slide/02/index.html", text:"多个图片轮换"},
-			{url:"slide/03/index.html", text:"仿亚马逊首页图片轮换"}
-		],
-		[
-			{title:"移动端效果"},
-			{url:"mobile/index.html",text:"移动端效果展示"}
-		],
-		[
-			{title:"web小程序"},
-			{url:"calculator/index.html", text:"web计算器"},
-			{url:"snake/index.html",text:"贪吃蛇"},
-			{url:"Tetris/index.html",text:"俄罗斯方块"},
-			{url:"2048/index.html",text:"2048"}
-		],
-		[
-			{title:"其他"},
-			{url:"other/page/index2.html",text:"页码效果"},
-			{url:"other/1/index.html", text:"简易评分"}
-		]
-	];*/
 	var xhr = createXHR();
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4){
 			if(xhr.status == 200 || xhr.status == 304){
-				var listText = xhr.responseText;
-				demo.data = JSON.parse(listText);
+				var demo = new Demo();
+				demo.data = JSON.parse(xhr.responseText);
+				demo.init("warp");
+				demo.mouseAction();
 			}else{
 				console.log("Request was unsuccessful: " + xhr.status);
 			}
@@ -89,8 +61,6 @@ window.onload = function(){
 	};
 	xhr.open("get", "list.json", true);
 	xhr.send(null);
-	demo.init("warp");
-	demo.mouseAction();
 }
 function createXHR(){
 	if(typeof XMLHttpRequest != "undefined"){
