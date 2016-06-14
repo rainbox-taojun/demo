@@ -47,7 +47,8 @@ Demo.prototype = {
 }
 window.onload = function(){
 	var demo = new Demo();
-	demo.data = [
+	var list = null;
+	/*demo.data = [
 		[
 			{title:"拖动效果"},
 			{url:"drag/01/index.html",text:"可拖动并改变大小的窗体"},
@@ -75,7 +76,43 @@ window.onload = function(){
 			{url:"other/page/index2.html",text:"页码效果"},
 			{url:"other/1/index.html", text:"简易评分"}
 		]
-	];
+	];*/
+	var xhr = createXHR();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+				list = xhr.responseText;
+			}else{
+				console.log("Request was unsuccessful: " + xhr.status);
+			}
+		}
+	};
+	xhr.open("get", "list.json", true);
+	xhr.send(null);
+	demo.data = JSON.parse(list);
 	demo.init("warp");
 	demo.mouseAction();
+}
+function createXHR(){
+	if(typeof XMLHttpRequest != "undefined"){
+		return new XMLHttpRequest();
+	}else if (typeof ActiveXObject != "undefined") {
+		if(typeof arguments.callee.activeXstring != "string"){
+			var versions = ["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],
+				i,len;
+
+			for(i=0 ; len=versions.length; i<len ; i++){
+				try{
+					new ActiveXObject(versions[i]);
+					arguments.callee.activeXstring = versions[i];
+					break;
+				}catch(ex){
+					//跳过
+				}
+			}
+		}
+		return new ActiveXObject(arguments.callee.activeXstring);
+	}else{
+		throw new Error("No XHR object available.");
+	}
 }
