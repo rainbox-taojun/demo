@@ -47,7 +47,6 @@ Demo.prototype = {
 }
 window.onload = function(){
 	var demo = new Demo();
-	var list = '';
 	/*demo.data = [
 		[
 			{title:"拖动效果"},
@@ -81,8 +80,8 @@ window.onload = function(){
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4){
 			if(xhr.status == 200 || xhr.status == 304){
-				list = xhr.responseText;
 				var listText = xhr.responseText;
+				demo.data = JSON.parse(list);
 			}else{
 				console.log("Request was unsuccessful: " + xhr.status);
 			}
