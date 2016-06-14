@@ -101,7 +101,7 @@ function createXHR(){
 			var versions = ["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],
 				i,len;
 
-			for(i=0 ; len=versions.length; i<len ; i++){
+			for(i=0, len=versions.length; i<len ; i++){
 				try{
 					new ActiveXObject(versions[i]);
 					arguments.callee.activeXstring = versions[i];
