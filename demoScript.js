@@ -81,7 +81,7 @@ window.onload = function(){
 		if(xhr.readyState == 4){
 			if(xhr.status == 200 || xhr.status == 304){
 				var listText = xhr.responseText;
-				demo.data = JSON.parse(list);
+				demo.data = JSON.parse(listText);
 			}else{
 				console.log("Request was unsuccessful: " + xhr.status);
 			}
