@@ -89,7 +89,6 @@ window.onload = function(){
 	};
 	xhr.open("get", "list.json", true);
 	xhr.send(null);
-	demo.data = JSON.parse(list);
 	demo.init("warp");
 	demo.mouseAction();
 }
