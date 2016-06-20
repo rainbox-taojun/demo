@@ -46,9 +46,6 @@ Demo.prototype = {
 	}
 }
 window.onload = function(){
-	var script = document.createElement("script");
-	script.src = "myAjax.js";
-	document.body.appendChild(script);
 	ajax({
 		type:"get",
 		url:"list.json",
