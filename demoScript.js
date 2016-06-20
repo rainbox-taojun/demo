@@ -46,42 +46,19 @@ Demo.prototype = {
 	}
 }
 window.onload = function(){
-	var xhr = createXHR();
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4){
-			if(xhr.status == 200 || xhr.status == 304){
-				var demo = new Demo();
-				demo.data = JSON.parse(xhr.responseText);
-				demo.init("warp");
-				demo.mouseAction();
-			}else{
-				console.log("Request was unsuccessful: " + xhr.status);
-			}
-		}
-	};
-	xhr.open("get", "list.json", true);
-	xhr.send(null);
-}
-function createXHR(){
-	if(typeof XMLHttpRequest != "undefined"){
-		return new XMLHttpRequest();
-	}else if (typeof ActiveXObject != "undefined") {
-		if(typeof arguments.callee.activeXstring != "string"){
-			var versions = ["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],
-				i,len;
-
-			for(i=0, len=versions.length; i<len ; i++){
-				try{
-					new ActiveXObject(versions[i]);
-					arguments.callee.activeXstring = versions[i];
-					break;
-				}catch(ex){
-					//跳过
-				}
-			}
-		}
-		return new ActiveXObject(arguments.callee.activeXstring);
-	}else{
-		throw new Error("No XHR object available.");
-	}
+	var script = document.createElement("script");
+	script.src = "myAjax.js";
+	document.body.appendChild(script);
+	ajax({
+		type:"get",
+		url:"list.json",
+		async:true,
+		data:null,
+		success = function(response){
+			var demo = new Demo();
+			demo.data = JSON.parse(response);
+			demo.init("warp");
+			demo.mouseAction();
+		};
+	});
 }
