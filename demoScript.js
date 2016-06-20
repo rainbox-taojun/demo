@@ -59,6 +59,6 @@ window.onload = function(){
 			demo.data = JSON.parse(response);
 			demo.init("warp");
 			demo.mouseAction();
-		};
+		}
 	});
 }
