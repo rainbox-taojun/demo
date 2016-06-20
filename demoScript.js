@@ -54,7 +54,7 @@ window.onload = function(){
 		url:"list.json",
 		async:true,
 		data:null,
-		success = function(response){
+		success: function(response){
 			var demo = new Demo();
 			demo.data = JSON.parse(response);
 			demo.init("warp");
