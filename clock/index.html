@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>canvas时钟</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<canvas width="500px" height="500px"></canvas>
+	<script type="text/javascript">
+		function Clock(){
+			this.now = null;
+			this.ctx = null;
+			this.sec = null;//秒针
+			this.min = null;//分针
+			this.hr = null;//时针
+		}
+		Clock.prototype = {
+			//初始化数据
+			init:function(){
+				this.getTime();
+				var canvas = document.getElementsByTagName('canvas')[0];
+				this.ctx = canvas.getContext('2d');
+				this.ctx.save();
+				this.ctx.clearRect(0,0,500,500);
+				this.ctx.translate(250, 250);
+				this.ctx.rotate(-Math.PI/2);
+				this.ctx.strokeStyle = "black";
+				this.ctx.fillStyle = "white";
+				this.ctx.lineWidth = 15;
+				this.ctx.lineCap = "round";
+
+				this.writeHours();
+				this.writeMinute();
+				this.writeSeconds();
+				
+				this.markHours();
+				this.markMinute();
+				this.picRound();
+			},
+			//
+			getTime:function(){
+				this.now = new Date();
+				this.sec = this.now.getSeconds();
+				this.min = this.now.getMinutes();
+				this.hr = this.now.getHours();
+				this.hr = this.hr>12?this.hr-12:this.hr;
+			},
+			//时针刻度
+			markHours:function(){
+				this.ctx.save();
+				for(var i=0 ; i<12 ; i++){
+					this.ctx.beginPath();
+					this.ctx.rotate(Math.PI/6);
+					this.ctx.moveTo(0,200);
+					this.ctx.lineTo(0,180);
+					this.ctx.stroke();
+				}
+				this.ctx.restore();
+			},
+			//分针刻度
+			markMinute:function(){
+				this.ctx.save();
+				this.ctx.lineWidth = 7;
+				for(var i=0 ; i<60 ; i++){
+					if(i%5 != 0){
+						this.ctx.beginPath();
+						this.ctx.moveTo(0,200);
+						this.ctx.lineTo(0,195);
+						this.ctx.stroke();
+					}
+					this.ctx.rotate(Math.PI/30);
+				}
+				this.ctx.restore();
+			},
+			//时针
+			writeHours:function(){
+				this.ctx.save();
+				this.ctx.rotate( this.hr*(Math.PI/6) + (Math.PI/360)*this.min + (Math.PI/21600)*this.sec );
+				this.ctx.lineWidth = 14;
+				this.ctx.beginPath();
+				this.ctx.moveTo(-20,0);
+				this.ctx.lineTo(80,0);
+				this.ctx.stroke();
+				this.ctx.restore();
+			},
+			//分针
+			writeMinute:function(){
+				this.ctx.save();
+				this.ctx.rotate((Math.PI/30)*this.min + (Math.PI/1800)*this.sec);
+				this.ctx.lineWidth = 7;
+				this.ctx.beginPath();
+				this.ctx.moveTo(-40,0);
+				this.ctx.lineTo(200,0);
+				this.ctx.stroke();
+				this.ctx.restore();
+			},
+			//秒针
+			writeSeconds:function(){
+				this.ctx.save();
+				this.ctx.rotate(this.sec * Math.PI/30);
+				this.ctx.lineWidth = 3;
+				this.ctx.strokeStyle = "#ff0000";
+				this.ctx.beginPath();
+				this.ctx.moveTo(-45,0);
+				this.ctx.lineTo(170,0);
+				this.ctx.stroke();
+				this.ctx.restore();
+			},
+			//画个圆形边框
+			picRound:function(){
+				this.ctx.beginPath();
+				this.ctx.strokeStyle = "#0000FF";
+				this.ctx.lineWidth = 10;
+				this.ctx.arc(0,0,240,0,Math.PI*2);
+				this.ctx.stroke();
+				this.ctx.beginPath();
+				this.ctx.fillStyle = "#ff0000";
+				this.ctx.arc(0,0,10,0,Math.PI*2);
+				this.ctx.fill();
+				this.ctx.restore();
+			}
+		}
+		function play(){
+			var clock = new Clock();
+			clock.init();
+			window.requestAnimationFrame(play);
+		}
+		window.requestAnimationFrame(play);
+	</script>
+</body>
+</html>

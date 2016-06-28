@@ -22,6 +22,10 @@
 		{"url":"2048/index.html","text":"2048"}
 	],
 	[
+		{"title":"canvas"},
+		{"url":"clock/index.html","text":"时钟"}
+	],
+	[
 		{"title":"其他"},
 		{"url":"other/page/index2.html","text":"页码效果"},
 		{"url":"other/1/index.html", "text":"简易评分"}
