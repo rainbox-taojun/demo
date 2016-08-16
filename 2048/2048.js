@@ -37,17 +37,20 @@ My2048.prototype = {
 	},
 	//生成随机位置的方块
 	random:function(){
-		var num = [2,2,2,2];
-		var nextNum = Math.floor(Math.random()*4+0);
-		var nextLoca = 0;
-		for( ; ; ){
-			nextLoca = Math.floor(Math.random()*this.length+0);
-			if(this.grid[nextLoca] == 0){
-				this.grid[nextLoca] = num[nextNum];
-				break;
+		var num = [2,2,2,4];
+		var that = this;
+		return (function(){
+			var nextNum = Math.floor(Math.random()*4+0);
+			var nextLoca = 0;
+			for( ; ; ){
+				nextLoca = Math.floor(Math.random()*that.length+0);
+				if(that.grid[nextLoca] == 0){
+					that.grid[nextLoca] = num[nextNum];
+					break;
+				}
 			}
-		}
-		this.draw();
+			that.draw();
+		})();
 	},
 	//将数组中的状态显示在界面中
 	draw:function(){
