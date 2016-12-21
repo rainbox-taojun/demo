@@ -1,4 +1,4 @@
-//所有对元素添加或删除事件，用它进行
+//通用事件监听程序
 var EventUtil = {
 	//添加方法
 	addHandler: function(element,type, handler){
