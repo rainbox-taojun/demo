@@ -172,7 +172,7 @@ RunImg.prototype = {
 }
 window.onload = function(){
 	var run = new RunImg();
-	run.count = 5;	
+	run.count = 5;
 	run.imgWidth = 490;
 	run.imgurl = [
 	"<img src=\"http://img03.taobaocdn.com/tps/i3/T1ITuTXbRnXXXXXXXX-490-170.png\"/>",
