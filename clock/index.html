@@ -2,8 +2,28 @@
 <html>
 <head>
 	<title>帅气时钟</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/clock.css">
 </head>
 <body>
+	<section>
+		<ul class="clock">
+			<li class="hour">14</li>
+			<li>:</li>
+			<li class="minute">55</li>
+			<li>:</li>
+			<li class="second">12</li>
+		</ul>
+	</section>
 
+
+
+	<script src="js/jquery-3.1.1.slim.min.js"></script>
+	<script src="js/jquery.longShadow.js"></script>
+	<script src="js/clock.js"></script>
+	<script>
+		var myClock = clock(".clock");
+		myClock.loadTime();
+	</script>
 </body>
 </html>
