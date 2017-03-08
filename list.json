@@ -19,7 +19,8 @@
 		{"url":"calculator/index.html", "text":"web计算器"},
 		{"url":"snake/index.html","text":"贪吃蛇"},
 		{"url":"Tetris/index.html","text":"俄罗斯方块"},
-		{"url":"2048/index.html","text":"2048"}
+		{"url":"2048/index.html","text":"2048"},
+		{"url":"clock/index.html","text":"时钟"}	
 	],
 	[
 		{"title":"canvas"},
